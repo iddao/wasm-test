@@ -12,24 +12,24 @@ mod flipper {
 
    
     #[ink(storage)]
-    pub struct Flipper {
-        value: bool,
+    // pub struct Flipper {
+    //     value: bool,
         // AUTH_CERT: struct TheTupleStruct(&[u8]),
-    }
-    // named_tuple!(
-    //     #[derive(SpreadLayout)]
-    //     pub struct Flipper {
-    //         value: bool,
-    //         AUTH_CERT: &'static [u8],
-    //     }
-    // );
+    // }
+    named_tuple!(
+        #[derive(SpreadLayout)]
+        pub struct Flipper {
+            value: bool,
+            AUTH_CERT: &'static [u8],
+        }
+    );
 
     impl Flipper {
         #[ink(constructor)]
         pub fn new(init_value: bool) -> Self {
             Self {
                 value: init_value,
-                
+                AUTH_CERT: &hex!("308"),
             }
         }
 
