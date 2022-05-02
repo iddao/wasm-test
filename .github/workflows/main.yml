@@ -1,0 +1,20 @@
+name: WASM
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: cargo build
+        run:  cargo +nightly contract build
+        
+      - name: cargo test
+        run:  cargo +nightly contract test
