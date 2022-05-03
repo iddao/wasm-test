@@ -13,6 +13,23 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+        run:  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+      - name: source ~/.cargo/env
+        run:  source ~/.cargo/env
+      - name: rustup default stable
+        run:  rustup default stable
+      - name: rustup update
+        run:  rustup update
+      - name: rustup update nightly
+        run:  rustup update nightly
+      - name: rustup target add wasm32-unknown-unknown --toolchain nightly
+        run:  rustup target add wasm32-unknown-unknown --toolchain nightly
+      - name: rustup component add rust-src --toolchain nightly
+        run:  rustup component add rust-src --toolchain nightly
+      - name: rustup target add wasm32-unknown-unknown --toolchain nightly
+        run:  rustup target add wasm32-unknown-unknown --toolchain nightly
+      
       - name: cargo build
         run:  cargo +nightly contract build
         
