@@ -14,25 +14,42 @@ extern crate hex_literal;
 
 #[ink::contract]
 mod flipper {
-    // struct ThisIsATupleStrucThatHoldsU8SliceAndMakeThemUsable<'a>(&'a [u8]);
-    struct User {
-        id: i32,
-    }
+    use ink_storage::traits::{
+        PackedLayout,
+        SpreadLayout,
+    };
 
+
+    #[derive(
+        Debug,
+        // Copy,
+        Clone,
+        PartialEq,
+        Eq,
+        scale::Encode,
+        scale::Decode,
+        SpreadLayout,
+        PackedLayout,
+    )]
+    #[cfg_attr(
+        feature = "std",
+        derive(::scale_info::TypeInfo, ::ink_storage::traits::StorageLayout)
+    )]
     #[ink(storage)]
     
     pub struct Flipper {
         value: i32,
-        cerf: User,
+        cerf: streamsha::Sha256,
     }
 
 
     impl Flipper {
         #[ink(constructor)]
-        pub fn new(init_value: i32, init_user: User) -> Self {
+        
+        pub fn new(init_value: i32) -> Self {
             Self {
                 value: init_value,
-                cerf: init_user,
+                cerf: streamsha::Sha256::new(),
             }
         }
 
@@ -46,10 +63,10 @@ mod flipper {
             self.value = self.value + 1;
         }
 
-        #[ink(message)]
-        pub fn get(&self) -> i32 {
-            self.value
-        }
+        // #[ink(message)]
+        // pub fn get(&self) -> i32 {
+        //     self.value
+        // }
     }
 
     #[cfg(test)]
@@ -65,7 +82,7 @@ mod flipper {
 
         #[ink::test]
         fn it_works() {
-            let mut flipper = Flipper::new(1, User{id: 1});
+            let mut flipper = Flipper::new(1);
             flipper.flip();
         }
     }
